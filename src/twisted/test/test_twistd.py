@@ -5,7 +5,6 @@
 Tests for L{twisted.application.app} and L{twisted.scripts.twistd}.
 """
 
-
 import errno
 import inspect
 import os
@@ -2136,7 +2135,6 @@ def stubApplicationRunnerFactoryCreator(signum):
 
 
 class ExitWithSignalTests(TestCase):
-
     """
     Tests for L{twisted.application.app._exitWithSignal}.
     """

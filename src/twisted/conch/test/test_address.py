@@ -4,6 +4,7 @@
 """
 Tests for L{SSHTransportAddrress} in ssh/address.py
 """
+
 from __future__ import annotations
 
 from typing import Callable

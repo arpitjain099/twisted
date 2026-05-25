@@ -5,7 +5,6 @@
 Exceptions and errors for use in twisted.internet modules.
 """
 
-
 import socket
 
 from incremental import Version
@@ -352,9 +351,9 @@ class ProcessExitedAlready(Exception):
 
 
 class NotConnectingError(RuntimeError):
-    __doc__ = (
-        MESSAGE
-    ) = "The Connector was not connecting when it was asked to stop connecting"
+    __doc__ = MESSAGE = (
+        "The Connector was not connecting when it was asked to stop connecting"
+    )
 
     def __str__(self) -> str:
         s = self.MESSAGE

@@ -1656,10 +1656,10 @@ class OpenSSLCertificateOptions:
         return ctx
 
 
-OpenSSLCertificateOptions.__getstate__ = deprecated(  # type:ignore[method-assign]
+OpenSSLCertificateOptions.__getstate__ = deprecated(  # type: ignore[method-assign]
     Version("Twisted", 15, 0, 0), "a real persistence system"
 )(OpenSSLCertificateOptions.__getstate__)
-OpenSSLCertificateOptions.__setstate__ = deprecated(  # type:ignore[method-assign]
+OpenSSLCertificateOptions.__setstate__ = deprecated(  # type: ignore[method-assign]
     Version("Twisted", 15, 0, 0), "a real persistence system"
 )(OpenSSLCertificateOptions.__setstate__)
 

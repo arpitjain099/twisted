@@ -384,14 +384,10 @@ class FlattenIntegrationTests(FlattenTestCase):
         directive fails with L{FlattenerError} if there is no available render
         method to satisfy that directive.
         """
-        element = Element(
-            loader=XMLString(
-                """
+        element = Element(loader=XMLString("""
         <p xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
           t:render="unknownMethod" />
-        """
-            )
-        )
+        """))
         self.assertFlatteningRaises(element, MissingRenderMethod)
 
     def test_transparentRendering(self) -> None:
@@ -485,16 +481,12 @@ class FlattenIntegrationTests(FlattenTestCase):
             def renderMethod(self, request: IRequest | None, tag: Tag) -> Flattenable:
                 return succeed("Hello, world.")
 
-        element = RenderfulElement(
-            loader=XMLString(
-                """
+        element = RenderfulElement(loader=XMLString("""
         <p xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
           t:render="renderMethod">
             Goodbye, world.
         </p>
-        """
-            )
-        )
+        """))
         self.assertFlattensImmediately(element, b"Hello, world.")
 
     def test_loaderClassAttribute(self) -> None:
@@ -521,14 +513,10 @@ class FlattenIntegrationTests(FlattenTestCase):
                 renders.append((self, request))
                 return tag("Hello, world.")
 
-        element = RenderfulElement(
-            loader=XMLString(
-                """
+        element = RenderfulElement(loader=XMLString("""
         <p xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
           t:render="renderMethod" />
-        """
-            )
-        )
+        """))
         self.assertFlattensImmediately(element, b"<p>Hello, world.</p>")
 
     def test_directiveRenderingOmittingTag(self) -> None:
@@ -542,16 +530,12 @@ class FlattenIntegrationTests(FlattenTestCase):
             def renderMethod(self, request: IRequest | None, tag: Tag) -> Flattenable:
                 return "Hello, world."
 
-        element = RenderfulElement(
-            loader=XMLString(
-                """
+        element = RenderfulElement(loader=XMLString("""
         <p xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
           t:render="renderMethod">
             Goodbye, world.
         </p>
-        """
-            )
-        )
+        """))
         self.assertFlattensImmediately(element, b"Hello, world.")
 
     def test_elementContainingStaticElement(self) -> None:
@@ -565,14 +549,10 @@ class FlattenIntegrationTests(FlattenTestCase):
             def renderMethod(self, request: IRequest | None, tag: Tag) -> Flattenable:
                 return tag(Element(loader=XMLString("<em>Hello, world.</em>")))
 
-        element = RenderfulElement(
-            loader=XMLString(
-                """
+        element = RenderfulElement(loader=XMLString("""
         <p xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
           t:render="renderMethod" />
-        """
-            )
-        )
+        """))
         self.assertFlattensImmediately(element, b"<p><em>Hello, world.</em></p>")
 
     def test_elementUsingSlots(self) -> None:
@@ -607,31 +587,21 @@ class FlattenIntegrationTests(FlattenTestCase):
         class OuterElement(Element):
             @renderer
             def outerMethod(self, request: IRequest | None, tag: Tag) -> Flattenable:
-                return tag(
-                    InnerElement(
-                        loader=XMLString(
-                            """
+                return tag(InnerElement(loader=XMLString("""
                 <t:ignored
                   xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
                   t:render="innerMethod" />
-                """
-                        )
-                    )
-                )
+                """)))
 
         class InnerElement(Element):
             @renderer
             def innerMethod(self, request: IRequest | None, tag: Tag) -> Flattenable:
                 return "Hello, world."
 
-        element = OuterElement(
-            loader=XMLString(
-                """
+        element = OuterElement(loader=XMLString("""
         <p xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1"
           t:render="outerMethod" />
-        """
-            )
-        )
+        """))
         self.assertFlattensImmediately(element, b"<p>Hello, world.</p>")
 
     def test_sameLoaderTwice(self) -> None:

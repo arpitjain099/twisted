@@ -897,7 +897,7 @@ class TLSMemoryBIOTests(TestCase):
         # weren't notified of a handshake failure that would cause the test to
         # fail.
         def cbConnectionDone(result):
-            (clientProtocol, serverProtocol) = result
+            clientProtocol, serverProtocol = result
             clientProtocol.lostConnectionReason.trap(ConnectionDone)
             serverProtocol.lostConnectionReason.trap(ConnectionDone)
 
@@ -1571,7 +1571,7 @@ class TLSProducerTests(TestCase):
 
         def f() -> None:
             oldStyle: IOpenSSLContextFactory = (
-                ExtremelyOldStyle()  # type:ignore[assignment]
+                ExtremelyOldStyle()  # type: ignore[assignment]
             )
             TLSMemoryBIOFactory(oldStyle, True, Factory.forProtocol(Protocol))
 
@@ -1593,17 +1593,16 @@ class TLSProducerTests(TestCase):
             def __repr__(self) -> str:
                 return "has get context but broken"
 
-            def getContext(self) -> None:
-                ...
+            def getContext(self) -> None: ...
 
         class JustBroken:
             def __repr__(self) -> str:
                 return "just broken"
 
         broken1: IOpenSSLContextFactory = (
-            HasGetContextButBroken()  # type:ignore[assignment]
+            HasGetContextButBroken()  # type: ignore[assignment]
         )
-        broken2: IOpenSSLContextFactory = JustBroken()  # type:ignore[assignment]
+        broken2: IOpenSSLContextFactory = JustBroken()  # type: ignore[assignment]
 
         def test1() -> None:
             with self.assertRaises(TypeError) as te:

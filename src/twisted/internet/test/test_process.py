@@ -8,7 +8,6 @@ Tests for implementations of L{IReactorProcess}.
     platforms and native L{str} keys/values on Windows.
 """
 
-
 import io
 import json
 import os
@@ -408,13 +407,11 @@ class ProcessTestsBuilderBase(ReactorBuilder):
         # To test this, we are going to open a file descriptor in the parent
         # that is unlikely to be opened in the child, then verify that it's not
         # open in the child.
-        source = networkString(
-            """
+        source = networkString("""
 import sys
 from twisted.internet import process
 sys.stdout.write(repr(process._listOpenFDs()))
-sys.stdout.flush()"""
-        )
+sys.stdout.flush()""")
 
         r, w = os.pipe()
         self.addCleanup(os.close, r)

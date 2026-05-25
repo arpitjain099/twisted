@@ -172,7 +172,7 @@ def connect(client, destination):
         port a C{int}. If the C{host} is an IPv6 IP, the address is resolved
         using C{getaddrinfo} and the first version found is used.
     """
-    (host, port) = destination
+    host, port = destination
     if "%" in host or ":" in host:
         address = socket.getaddrinfo(host, port)[0][4]
     else:
@@ -1007,7 +1007,7 @@ class SourceCacheForCoverage:
         self = cls(python, origOpen)
         for module in walkModules("twisted"):
             self.pathToContents[module.filePath.path] = module.filePath.getContent()
-        python.open = self.open  # type:ignore[assignment]
+        python.open = self.open  # type: ignore[assignment]
         return self
 
     def open(self, path: str, mode: str) -> BytesIO:
@@ -1016,7 +1016,7 @@ class SourceCacheForCoverage:
         return BytesIO(self.pathToContents[path])  # pragma: no cover
 
     def disable(self) -> None:
-        self.patchedModule.open = self.origOpen  # type:ignore[attr-defined]
+        self.patchedModule.open = self.origOpen  # type: ignore[attr-defined]
 
 
 @implementer(_IExhaustsFileDescriptors)

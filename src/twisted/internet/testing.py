@@ -5,6 +5,7 @@
 """
 Assorted functionality which is commonly useful when writing unit tests.
 """
+
 from __future__ import annotations
 
 from collections.abc import Coroutine, Generator, Iterator, Sequence
@@ -106,7 +107,7 @@ class AccumulatingProtocol(protocol.Protocol):
     def connectionMade(self) -> None:
         self.made = 1
         factory: _ProtocolConnectionMadeHaver | None = (
-            self.factory  # type:ignore[assignment]
+            self.factory  # type: ignore[assignment]
         )
         if factory is not None and factory.protocolConnectionMade is not None:
             d = factory.protocolConnectionMade
@@ -1038,12 +1039,10 @@ class EventLoggingObserver(Sequence[LogEvent]):
         return len(self._events)
 
     @overload
-    def __getitem__(self, index: int) -> LogEvent:
-        ...
+    def __getitem__(self, index: int) -> LogEvent: ...
 
     @overload
-    def __getitem__(self, index: slice) -> Sequence[LogEvent]:
-        ...
+    def __getitem__(self, index: slice) -> Sequence[LogEvent]: ...
 
     def __getitem__(self, index: int | slice) -> LogEvent | Sequence[LogEvent]:
         return self._events[index]
@@ -1143,7 +1142,7 @@ def _runReactor(callback: Callable[[], Deferred[_T]]) -> None:  # pragma: no cov
     deferred.addErrback(errors.append)
     deferred.addBoth(lambda _: reactor.callLater(0, _stopReactor, reactor))
     # installSignalHandlers is technically not in IReactorCore
-    reactor.run(installSignalHandlers=False)  # type:ignore[call-arg]
+    reactor.run(installSignalHandlers=False)  # type: ignore[call-arg]
 
     if errors:  # pragma: no cover
         # Make sure the test fails in a visible way:
